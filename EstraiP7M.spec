@@ -1,4 +1,8 @@
 # -*- mode: python ; coding: utf-8 -*-
+import sys
+
+IS_MAC = sys.platform == 'darwin'
+ICON = 'EstraiP7M.icns' if IS_MAC else 'EstraiP7M.ico'
 
 
 a = Analysis(
@@ -26,7 +30,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=False,
@@ -35,11 +39,19 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['EstraiP7M.icns'],
+    icon=[ICON],
 )
-app = BUNDLE(
-    exe,
-    name='EstraiP7M.app',
-    icon='EstraiP7M.icns',
-    bundle_identifier=None,
-)
+if IS_MAC:
+    app = BUNDLE(
+        exe,
+        name='EstraiP7M.app',
+        icon='EstraiP7M.icns',
+        bundle_identifier='it.pcwebagency.estraip7m',
+        info_plist={
+            'CFBundleName': 'Estrai P7M',
+            'CFBundleDisplayName': 'Estrai P7M',
+            'CFBundleShortVersionString': '1.0',
+            'NSHumanReadableCopyright': '© 2026 Ing. Carmine Palermo',
+            'NSHighResolutionCapable': True,
+        },
+    )

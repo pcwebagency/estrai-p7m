@@ -14,7 +14,24 @@ Non richiede OpenSSL né altri tool esterni: l'estrazione avviene in Python puro
 - Opzione per sovrascrivere o saltare i file già estratti
 - Log colorato con riepilogo di estratti, saltati ed errori
 
-## Requisiti
+## Download
+
+Scarica l'ultima versione dalla pagina [Releases](https://github.com/pcwebagency/estrai-p7m/releases/latest):
+
+| Sistema | File |
+|---|---|
+| macOS (Apple Silicon M1/M2/M3…) | `EstraiP7M-macOS-AppleSilicon.zip` |
+| macOS (Intel) | `EstraiP7M-macOS-Intel.zip` |
+| Windows 10/11 | `EstraiP7M-Windows.zip` |
+
+L'app non è firmata con un certificato sviluppatore, quindi al primo avvio il sistema mostra un avviso:
+
+- **macOS:** clic destro sull'app → *Apri* → *Apri*. Se macOS la blocca comunque: *Impostazioni di Sistema → Privacy e sicurezza → Apri comunque*.
+- **Windows:** nella finestra di SmartScreen clic su *Ulteriori informazioni* → *Esegui comunque*.
+
+## Esecuzione da sorgente
+
+### Requisiti
 
 - Python 3.9+ con Tkinter
 - `asn1crypto`
@@ -23,7 +40,7 @@ Non richiede OpenSSL né altri tool esterni: l'estrazione avviene in Python puro
 pip install asn1crypto
 ```
 
-## Uso
+### Uso
 
 ```bash
 python3 estrai_p7m.py
@@ -33,14 +50,14 @@ Il file estratto viene salvato nella stessa cartella del `.p7m`, con il nome sen
 
 ## Creare l'app
 
-Con [PyInstaller](https://pyinstaller.org/):
+Con [PyInstaller](https://pyinstaller.org/), sul sistema per cui si vuole compilare (macOS o Windows):
 
 ```bash
 pip install pyinstaller
 pyinstaller EstraiP7M.spec
 ```
 
-L'app viene generata in `dist/EstraiP7M.app`.
+L'app viene generata in `dist/` (`EstraiP7M.app` su macOS, `EstraiP7M.exe` su Windows).
 
 In alternativa con py2app (solo macOS):
 
@@ -54,6 +71,15 @@ Per rigenerare l'icona (`EstraiP7M.icns`, richiede Pillow e macOS):
 ```bash
 pip install pillow
 python3 make_icon.py
+```
+
+### Release automatiche
+
+Il workflow [`.github/workflows/release.yml`](.github/workflows/release.yml) compila l'app su macOS (Apple Silicon e Intel) e su Windows e la pubblica come release a ogni tag `v*`:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
 ```
 
 ## Autore
